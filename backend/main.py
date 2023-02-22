@@ -26,6 +26,7 @@ class Picture(BaseModel):
     date: datetime.date = Field(..., description="Date of posting")
     title: str = Field(..., description="Title of the post")
     likes: int = Field(..., description="Number of likes")
+    picture: str = Field(..., description="Picture file")
 
 
 class BestNine(BaseModel):
@@ -47,5 +48,4 @@ def get_best_nine(
     Example: /best-nine?username=leojesuz&year=2022
     """
     posts = get_most_liked(username, year)
-    posts = sorted(posts, key=lambda d: d["date"])
     return {"best_nine": posts}

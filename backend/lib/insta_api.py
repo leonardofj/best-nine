@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 from lib.user_sample import saved_posts
 import requests
+import urllib.request
 
 
 def get_user_id(username: str) -> str:
@@ -73,4 +74,10 @@ def get_most_liked(username: str, year: int):
         }
         pics_data.append(pic_data)
     pics_data = sorted(pics_data, key=lambda d: d["likes"], reverse=True)
-    return pics_data[:9]
+    pics_data = sorted(pics_data[:9], key=lambda d: d["date"])
+    pics_folder = "/home/leo/Projects/best-nine/frontend/public/"
+    for count, item in enumerate(pics_data):
+        pic_file = f"{pics_folder}pic{count}.jpeg"
+        urllib.request.urlretrieve(item["link"], pic_file)
+        item["picture"] = f"pic{count}.jpeg"
+    return pics_data
