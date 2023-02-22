@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import {
+    AspectRatio,
     Box,
     Image,
     Grid,
     GridItem,
-    Text,
+    Button
 } from '@chakra-ui/react';
+import { exportComponentAsJPEG } from "react-component-export-image";
 
 export default function BestNine() {
     // const [data, setData] = useState([{}]);
@@ -16,23 +18,29 @@ export default function BestNine() {
     //         .then(res => {
     //             console.log(res.data.best_nine);
     //             setData(res.data.best_nine);
-    //         })
+    //         });
     // }, []);
     const data = ['pic0.jpeg',
         'pic1.jpeg', 'pic2.jpeg', 'pic3.jpeg',
         'pic4.jpeg', 'pic5.jpeg', 'pic6.jpeg',
         'pic7.jpeg', 'pic8.jpeg'
     ];
+    const printRef = React.useRef();
 
     return (
         <Box >
-            <Grid templateColumns='repeat(3, 1fr)' templateRows='repeat(3, 1fr)' gap={0}>
-                {data.map((item) => (
-                    <GridItem key={item} w='100%'>
-                        <Image src={item} alt={item} />
-                    </GridItem>
-                ))}
-            </Grid>
+            <Button onClick={() => exportComponentAsJPEG(printRef)}>Save</Button>
+            <Box ref={printRef}>
+                <Grid templateColumns='repeat(3, 1fr)' templateRows='repeat(3, 1fr)' gap={0}>
+                    {data.map((item) => (
+                        <GridItem key={item} w='100%'>
+                            <AspectRatio ratio={1}>
+                                <Image src={item} alt={item} />
+                            </AspectRatio>
+                        </GridItem>
+                    ))}
+                </Grid>
+            </Box>
         </Box>
     );
 }
